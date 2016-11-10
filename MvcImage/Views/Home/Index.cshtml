@@ -1,0 +1,58 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="~/Content/Popup.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.1.js"></script>
+</head>
+<body>
+    @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { id = "formMyInfo", enctype = "multipart/form-data" }))
+    {
+        <input type="file" id="imgUpLoad" name="imgUpLoad" />
+        <img alt="" src="@ViewData["imgUrl"]" id="imgPic" />
+        <input type="button" value="点击上传" onclick="Upload()" />
+        <br />
+        <input type="button" value="弹出层" onclick="GetPop();"/>
+        <div id="popupbg" class="popupbg">112</div>
+        <div id="popupResult" class="popupResult"></div>
+        <input type="hidden" value="" id="hidimgPic" />
+        @*@Html.Action("IndexJS", "Home")*@
+    }
+</body>
+</html>
+<script type="text/javascript">
+    function Upload() {
+        formMyInfo.submit();
+    }
+
+    function GetPop() {
+        var param = {};
+        param["model.ImagePic"] = "imgPic";
+        param["model.ImageHidPic"] = "hidimgPic";
+        //{ "KJID": "imgPic", "KJIDM": "hidimgPic"}
+        $.ajax({
+            url: '@Url.Action("IndexQT","Home")',
+            async: false,
+            type: "post",
+            data: { "KJID": "imgPic", "KJIDM": "hidimgPic" },
+            error: function () {
+
+            },
+            success: function (data) {
+                showPop();
+                $("#popupResult").html(data);
+            }
+        });
+    }
+    function showPop() {
+        $("#popupbg").fadeIn("slow");
+        $("#popupResult").fadeIn("slow");
+    }
+
+    
+</script>

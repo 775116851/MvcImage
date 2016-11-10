@@ -1,0 +1,47 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src="~/Scripts/jquery-1.7.1.js"></script>
+    @*<link href="~/Content/pagecss.css" rel="stylesheet" />*@
+    <style type="text/css">
+        .page{float:right;margin-top:10px;height:35px;line-height:35px;}
+        .page a{border-radius:0;border:1px solid #ddd;margin:0 2px;padding:3px 7px;}
+        .page a:hover{background-color:#036;border-color:#036;text-decoration:none;color:#fff;}
+        .page .pageCurrent{margin:0 2px;padding:0 5px;color:#333;}
+        .page .pageNo{border:1px solid #ddd;margin:0 2px;padding:3px 7px;color:#ccc;}
+        .page a.pagePre,.page a.pageNext, .page .pageNo{_padding:3px 7px 1px 7px;}
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        @Html.Raw(Html.CreatePage("http://localhost:21483/Page/Index?page={0}", Convert.ToInt32(ViewData["page"]), 20, 300,"showPage({0})", 10))
+    </div>
+    <input type="hidden" id="pageCurrent" value="1" />
+</body>
+</html>
+<script type="text/javascript">
+    $(function () {
+    });
+
+    function showPage(cpage) {
+        //$(".page").html('@Html.Raw(Html.CreatePage("http://localhost:21483/Page/Index?page={0}", Convert.ToInt32(2), 20, 300,"showPage({0})", 10))');
+        var urlString = '@Url.Action("AddressListPartial", "Page")' + "?page=" + cpage;
+        $.ajax({
+            url: urlString,
+            type: "post",
+            datatype: "text",
+            data: "",
+            success: function (result) {
+                $(".page").html(result);
+            }
+        })
+    }
+</script>

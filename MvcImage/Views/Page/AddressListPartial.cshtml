@@ -1,0 +1,4 @@
+﻿@{
+    Layout = null;
+}
+@Html.Raw(Html.CreatePage("http://localhost:21483/Page/Index?page={0}", Convert.ToInt32(ViewData["page"]), 20, 300,"showPage({0})", 10))
